@@ -17,7 +17,7 @@ using namespace std;
 int main()
 {
 	
-	int N= 11;                          
+	int N= 61;                          
 	double st=1; 			  
 	double Re=100;
 	double eps=0.01;                         
@@ -28,6 +28,8 @@ int main()
 	double Es=0;
 	double Es_st=0;
 	double dt=0.005;
+	double xmax=2*M_PI;
+	double ymax=2*M_PI;
 	double** x; double**y; double** xvel; double** yvel; double** xvel1; double** yvel1; double** Press;
 	x=new double* [N];  y=new double* [N];  xvel=new double* [N];  yvel=new double* [N];  xvel1=new double* [N];  yvel1=new double* [N];  Press=new double* [N];		  	
 	for (int i = 0; i < N; ++i)
@@ -35,7 +37,7 @@ int main()
 		x[i]=new double [N];  y[i]=new double [N];  xvel[i]=new double [N];  yvel[i]=new double [N];  xvel1[i]=new double [N];  yvel1[i]=new double [N];  Press[i]=new double [N];		  	
 	}
 	double norms, sum, norm_diff[N][N];    
-	gridgen(N, st, x, y);  // Grid generation
+	gridgen(N, st, xmax, ymax, x, y);  // Grid generation
 	
 	
 	init( N, Re, t, t1, x, y, xvel, xvel1, yvel, yvel1, Press); 
