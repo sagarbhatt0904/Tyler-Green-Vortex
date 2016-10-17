@@ -1,10 +1,16 @@
-
+#include"BC.h"
 // Metric calculation
 
 void metric(int N,double** x,double** y,double** zx, double** zy,double** ex, double**ey,double** JC)
 {
 
-double G[N][N], xz[N][N], ye[N][N], yz[N][N], xe[N][N];
+double** G;double** xz;double** ye;double** yz;double** xe;
+G=new double* [N]; xz=new double* [N]; ye=new double* [N]; yz=new double* [N]; xe=new double* [N];
+
+for (int i=0; i<N; i++)
+{
+	G[i]=new double [N]; xz[i]=new double [N]; ye[i]=new double [N]; yz[i]=new double [N]; xe[i]=new double [N];
+}
 
 for (int i=1; i<N-1; i++)
 	{
@@ -58,15 +64,17 @@ for (int i=0; i<N; i++)
 	}
 
 for (int i=0; i<N; i++)
+{
+	for (int j=1; j<N-1; j++)
 	{
-	    for (int j=1; j<N-1; j++)
-    	    {
-		zx[i][j] = ye[i][j]/G[i][j];
-		ex[i][j] = -yz[i][j]/G[i][j];
-		zy[i][j] = -xe[i][j]/G[i][j];
-		ey[i][j] = xz[i][j]/G[i][j];
-    	    }	
-         }
+	zx[i][j] = ye[i][j]/G[i][j];
+	ex[i][j] = -yz[i][j]/G[i][j];
+	zy[i][j] = -xe[i][j]/G[i][j];
+	ey[i][j] = xz[i][j]/G[i][j];
+	}	
+}
+BC(N,JC, zx, ex);
+BC(N,G,zy,ey);
 }
 
 

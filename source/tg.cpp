@@ -10,7 +10,7 @@
 #include"gridgen.h"
 #include"metric.h"
 #include"RHS.h"
-#include"BC.h"
+
 
 using namespace std;
 
@@ -24,9 +24,6 @@ int main()
 	double L=30;
 	double t=0;
 	double t1=0.1;
-	double Etd=0;
-	double Es=0;
-	double Es_st=0;
 	double dt=0.005;
 	double xmax=2*M_PI;
 	double ymax=2*M_PI;
@@ -40,9 +37,7 @@ int main()
 	gridgen(N, st, xmax, ymax, x, y);  // Grid generation
 	
 	
-	init( N, Re, t, t1, x, y, xvel, xvel1, yvel, yvel1, Press); 
-	
-	// Initial conditions
+	init( N, Re, t, t1, x, y, xvel, xvel1, yvel, yvel1, Press); // Initial conditions
 	
 	
 	double** u_new; double** u_new1; double** u_new2; double** u_new3; double** v_new; double** v_new1; double** v_new2; double** v_new3; double** p_new; double** p_new1; double** p_new2; double** p_new3;
@@ -114,7 +109,7 @@ int main()
 		    	
 		}
 	}
-	double dj=1;
+	// double dj=1;
 
     for(double ti=0; ti<t1;ti+=dt)
     {
@@ -135,14 +130,14 @@ int main()
 		            
 		    	    RHSv[i][j]=(((-3*v_k[i][j]+4*v_n[i][j]-v_old[i][j])/(2*dt))+rvs[i][j]);
 		    	    
-		            p_new[i][j]=Press[i][j]+0.25*(dtau[i][j]*rcs[i][j]);
-		            u_new[i][j]=u_k[i][j]+0.25*(dtau[i][j]*RHSu[i][j]);
-		            v_new[i][j]=v_k[i][j]+0.25*(dtau[i][j]*RHSv[i][j]);
+		            p_new1[i][j]=Press[i][j]+0.25*(dtau[i][j]*rcs[i][j]);
+		            u_new1[i][j]=u_k[i][j]+0.25*(dtau[i][j]*RHSu[i][j]);
+		            v_new1[i][j]=v_k[i][j]+0.25*(dtau[i][j]*RHSv[i][j]);
 		        }
 		    }
-		    BC(N,u_new,v_new,p_new);			// BC after first step RK
+		    BC(N,u_new1,v_new1,p_new1);			// BC after first step RK
 		    
-		    RHS(N,JC,u_new,v_new,p_new,zx,ey,ex,zy,Re,eps,rcs,rus,rvs,rho1,rho2); 
+		    RHS(N,JC,u_new1,v_new1,p_new1,zx,ey,ex,zy,Re,eps,rcs,rus,rvs,rho1,rho2); 
 		    
 		    for (int i =1; i<N-1; i++)			// Second step of RK
 		    {
@@ -152,14 +147,14 @@ int main()
 		            
 		    	    RHSv11[i][j]=(((-3*v_k1[i][j]+4*v_n1[i][j]-v_old1[i][j])/(2*dt))+rvs[i][j]);
 		    	    
-		            p_new[i][j]=Press[i][j]+0.33*(dtau[i][j]*rcs[i][j]);
-		            u_new[i][j]=u_k[i][j]+0.33*(dtau[i][j]*RHSu11[i][j]);
-		            v_new[i][j]=v_k[i][j]+0.33*(dtau[i][j]*RHSv11[i][j]);
+		            p_new2[i][j]=Press[i][j]+0.33*(dtau[i][j]*rcs[i][j]);
+		            u_new2[i][j]=u_k[i][j]+0.33*(dtau[i][j]*RHSu11[i][j]);
+		            v_new2[i][j]=v_k[i][j]+0.33*(dtau[i][j]*RHSv11[i][j]);
 		        }
 		    }
-		    BC(N,u_new,v_new,p_new);			// BC after second step RK
+		    BC(N,u_new2,v_new2,p_new2);			// BC after second step RK
 		    
-		    RHS(N,JC,u_new,v_new,p_new,zx,ey,ex,zy,Re,eps,rcs,rus,rvs,rho1,rho2); 
+		    RHS(N,JC,u_new2,v_new2,p_new2,zx,ey,ex,zy,Re,eps,rcs,rus,rvs,rho1,rho2); 
 		    
 		    for (int i =1; i<N-1; i++)			// Third step of RK
 		    {
@@ -169,12 +164,12 @@ int main()
 		            
 		    	    RHSv22[i][j]=(((-3*v_k2[i][j]+4*v_n2[i][j]-v_old2[i][j])/(2*dt))+rvs[i][j]);
 		    	    
-		            p_new[i][j]=Press[i][j]+0.5*(dtau[i][j]*rcs[i][j]);
-		            u_new[i][j]=u_k[i][j]+0.5*(dtau[i][j]*RHSu22[i][j]);
-		            v_new[i][j]=v_k[i][j]+0.5*(dtau[i][j]*RHSv22[i][j]);
+		            p_new3[i][j]=Press[i][j]+0.5*(dtau[i][j]*rcs[i][j]);
+		            u_new3[i][j]=u_k[i][j]+0.5*(dtau[i][j]*RHSu22[i][j]);
+		            v_new3[i][j]=v_k[i][j]+0.5*(dtau[i][j]*RHSv22[i][j]);
 		        }
 		    }
-		    BC(N,u_new,v_new,p_new);			// BC after third step RK
+		    BC(N,u_new3,v_new3,p_new3);			// BC after third step RK
 		    
 		    RHS(N,JC,u_new3,v_new3,p_new3,zx,ey,ex,zy,Re,eps,rcs,rus,rvs,rho1,rho2); 
 		    
@@ -234,36 +229,37 @@ int main()
     }
 
     /* Writing Data to file */
-	    ofstream xout("xvel.csv");
+	    ofstream xout("xvel.vtk");
+		xout<<"# vtk DataFile Version 2.0\nVTK from matlab\n"<<"ASCII\n"<<"DATASET STRUCTURED_POINTS\n"<<"DIMENSIONS "<<N<<" "<<N<<" "<<1<<"\nSPACING 1 1 1 \n"<<"ORIGIN 0 0 0\n"<<"POINT_DATA "<<N*N<<"\nSCALARS xvel float 1\n"<<"LOOKUP_TABLE default\n";
 		for (int i = 0; i < N; ++i)
 		{
 			for (int j = 0; j < N; ++j)
 			{
-				xout<<u_new[i][j]<<",";
+				xout<<u_new[i][j]<<" ";
 			}
-			xout<<endl;
 		}
 		
 		xout.close();
-		ofstream yout("yvel.csv");
+		
+		ofstream yout("yvel.vtk");
+		yout<<"# vtk DataFile Version 2.0\nVTK from matlab\n"<<"ASCII\n"<<"DATASET STRUCTURED_POINTS\n"<<"DIMENSIONS "<<N<<" "<<N<<" "<<1<<"\nSPACING 1 1 1 \n"<<"ORIGIN 0 0 0\n"<<"POINT_DATA "<<N*N<<"\nSCALARS yvel float 1\n"<<"LOOKUP_TABLE default\n";
 		for (int i = 0; i < N; ++i)
 		{
 			for (int j = 0; j < N; ++j)
 			{
-				yout<<v_new[i][j]<<",";
+				yout<<yvel[i][j]<<" ";
 			}
-			yout<<endl;
 		}
 		
 		yout.close();
-		ofstream pout("Press.csv");
+		ofstream pout("Press.vtk");
+		pout<<"# vtk DataFile Version 2.0\nVTK from matlab\n"<<"ASCII\n"<<"DATASET STRUCTURED_POINTS\n"<<"DIMENSIONS "<<N<<" "<<N<<" "<<1<<"\nSPACING 1 1 1 \n"<<"ORIGIN 0 0 0\n"<<"POINT_DATA "<<N*N<<"\nSCALARS Pressure float 1\n"<<"LOOKUP_TABLE default\n";
 		for (int i = 0; i < N; ++i)
 		{
 			for (int j = 0; j < N; ++j)
 			{
-				pout<<p_new[i][j]<<",";
+				pout<<p_new[i][j]<<" ";
 			}
-			pout<<endl;
 		}
 		
 		pout.close();
