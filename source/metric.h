@@ -1,4 +1,4 @@
-#include"BC.h"
+
 // Metric calculation
 
 void metric(int N,double** x,double** y,double** zx, double** zy,double** ex, double**ey,double** JC)
@@ -73,8 +73,13 @@ for (int i=0; i<N; i++)
 	ey[i][j] = xz[i][j]/G[i][j];
 	}	
 }
-BC(N,JC, zx, ex);
-BC(N,G,zy,ey);
+for (int i=0; i<N; i++)
+{
+		JC[i][0]=JC[i][1];
+		JC[0][i]=JC[1][i];
+		JC[N-1][i]=JC[N-2][i];
+		JC[i][N-1]=JC[i][N-2];
+}
 }
 
 

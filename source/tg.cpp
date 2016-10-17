@@ -10,6 +10,7 @@
 #include"gridgen.h"
 #include"metric.h"
 #include"RHS.h"
+#include"BC.h"
 
 
 using namespace std;
@@ -250,6 +251,7 @@ int main()
 				yout<<yvel[i][j]<<" ";
 			}
 		}
+		yout.close();
 		
 		yout.close();
 		ofstream pout("Press.vtk");
