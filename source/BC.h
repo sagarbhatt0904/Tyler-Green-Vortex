@@ -1,7 +1,7 @@
 
 using namespace std;
 
-void BC (int N, double** u_new,double** v_new,double** p_new)
+void BC (int N, vector<vector<double> > &u_new,vector<vector<double> > &v_new,vector<vector<double> > &p_new)
 {	
 	for (int i=0; i<N; i++)
 	{

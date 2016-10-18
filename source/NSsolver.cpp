@@ -1,7 +1,3 @@
-/****Tyler Green Vortex****
-***************************
-
-***************************/
 #include <iostream>
 #include <fstream>
 #include <math.h>

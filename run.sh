@@ -3,6 +3,6 @@
 echo 'Running Navier-stokes Solver for Tyler Green Vortex'
 make -C source/
 
-source/./tyler_green
+source/./result
 
-rm source/tyler_green
+rm source/result

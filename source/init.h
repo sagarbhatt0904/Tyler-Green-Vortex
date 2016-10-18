@@ -1,8 +1,8 @@
 #include<math.h>
 
 using namespace std;
-// Initializing U,V, Pressure
-void init(int N, double Re,double t,double t1,double** x,double** y,double** xvel,double** xvel1,double** yvel,double** yvel1,double** Press)
+// Initializing U, V,  Pressure
+void init(int N,  double Re, double t, double t1, vector<vector<double> > &x, vector<vector<double> > &y, vector<vector<double> > &xvel, vector<vector<double> > &xvel1, vector<vector<double> > &yvel, vector<vector<double> > &yvel1, vector<vector<double> > &Press)
 {
 	double Press1[N][N];
 	for (int i=0; i<N; i++)

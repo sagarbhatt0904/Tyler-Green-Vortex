@@ -1,3 +1,3 @@
 all:
 
-	g++ tg.cpp -o tyler_green
+	g++ tg.cpp -o result
