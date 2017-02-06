@@ -12,7 +12,7 @@
 #include "metric.h"
 #include "RHS.h"
 #include "BC.h"
-
+#include "contour.h"
 
 using namespace std;
 
@@ -281,40 +281,9 @@ int main()
 		}  	
     }
 
-   /* Writing Data to file */
-	    ofstream xout("xvel.vtk");
-		xout<<"# vtk DataFile Version 2.0\nVTK from matlab\n"<<"ASCII\n"<<"DATASET STRUCTURED_POINTS\n"<<"DIMENSIONS "<<N<<" "<<N<<" "<<1<<"\nSPACING 1 1 1 \n"<<"ORIGIN 0 0 0\n"<<"POINT_DATA "<<N*N<<"\nSCALARS xvel float 1\n"<<"LOOKUP_TABLE default\n";
-		for (int i = 0; i < N; ++i)
-		{
-			for (int j = 0; j < N; ++j)
-			{
-				xout<<u_new[i][j]<<" ";
-			}
-		}
-		
-		xout.close();
-		
-		ofstream yout("yvel.vtk");
-		yout<<"# vtk DataFile Version 2.0\nVTK from matlab\n"<<"ASCII\n"<<"DATASET STRUCTURED_POINTS\n"<<"DIMENSIONS "<<N<<" "<<N<<" "<<1<<"\nSPACING 1 1 1 \n"<<"ORIGIN 0 0 0\n"<<"POINT_DATA "<<N*N<<"\nSCALARS yvel float 1\n"<<"LOOKUP_TABLE default\n";
-		for (int i = 0; i < N; ++i)
-		{
-			for (int j = 0; j < N; ++j)
-			{
-				yout<<yvel[i][j]<<" ";
-			}
-		}
-		
-		yout.close();
-		ofstream pout("Press.vtk");
-		pout<<"# vtk DataFile Version 2.0\nVTK from matlab\n"<<"ASCII\n"<<"DATASET STRUCTURED_POINTS\n"<<"DIMENSIONS "<<N<<" "<<N<<" "<<1<<"\nSPACING 1 1 1 \n"<<"ORIGIN 0 0 0\n"<<"POINT_DATA "<<N*N<<"\nSCALARS Pressure float 1\n"<<"LOOKUP_TABLE default\n";
-		for (int i = 0; i < N; ++i)
-		{
-			for (int j = 0; j < N; ++j)
-			{
-				pout<<p_new[i][j]<<" ";
-			}
-		}
-		
-		pout.close();
-	    return 0;
+	/* Writing Data to file */
+    contour(u_new,N,"xvel.vtk","U");
+    contour(v_new,N,"yvel.vtk","V");
+    contour(p_new,N,"Press.vtk","P");
+    return 0;
 }
